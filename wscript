@@ -14,7 +14,7 @@ def pre(bld):
   Utils.exec_command(bld.path.abspath()+'/do')
 
 def build(bld):
-  #bld.add_pre_fun(pre)
+  bld.add_pre_fun(pre)
   bld.env.LIBPATH_NACL=[bld.path.abspath()+'/build/localhost/lib/x86/']
   bld.env.STATICLIB_NACL="nacl"
   obj = bld.new_task_gen("cxx", "shlib", "node_addon")
