@@ -11,8 +11,6 @@ using namespace std;
 using namespace node;
 using namespace v8;
 
-//static Handle<Value> DoCurve (const Arguments&);
-//static Handle<Value> NodeCryptoBox (const Arguments&);
 static Handle<Value> node_crypto_box (const Arguments&);
 static Handle<Value> node_crypto_box_open (const Arguments&);
 static Handle<Value> node_crypto_box_keypair (const Arguments&);
@@ -21,30 +19,6 @@ static Handle<Value> node_crypto_sign_keypair (const Arguments&);
 
 extern "C" void init (Handle<Object>);
 
-/*static Handle<Value> DoCurve (const Arguments& args) {
-  HandleScope scope;
-  const char *usage = "usage: curve(a, b, c)";
-  if (args.Length() != 3) {
-    return ThrowException(Exception::Error(String::New(usage)));
-  }
-  unsigned char* arg0 = (unsigned char*) Buffer::Data(args[0]->ToObject());
-  unsigned char* arg1 = (unsigned char*) Buffer::Data(args[1]->ToObject());
-  unsigned char* arg2 = (unsigned char*) Buffer::Data(args[2]->ToObject());
-  curve25519_donna(arg0, arg1, arg2);
-  return Undefined();
-}*/
-
-/*static Handle<Value> DoNodeCryptoBox (const Arguments& args) {
-  const char *usage = "please use with four non-random parameters";
-  if (args.Length() != 3) {
-    return ThrowException(Exception::Error(String::New(usage)));
-  }
-  unsigned char* arg0 = (unsigned char*) Buffer::Data(args[0]->ToObject());
-  unsigned char* arg1 = (unsigned char*) Buffer::Data(args[1]->ToObject());
-  unsigned char* arg2 = (unsigned char*) Buffer::Data(args[2]->ToObject());
-  curve25519_donna(arg0, arg1, arg2);
-  return Undefined();
-}*/
 
 static string buf_to_str (Handle<Object> b) {
   return string(Buffer::Data(b), Buffer::Length(b));
