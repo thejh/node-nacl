@@ -12,9 +12,9 @@ incorrect or a signature is invalid. The methods never throw.
 Crypto-Box
 ----------
 
-    // encrypt and sign
+    // encrypt and sign (message may be string or Buffer, all others must be Buffers, returns a Buffer)
     box(message, nonce, pubkey, privkey)
-    // decrypt and validate
+    // decrypt and validate (all parameters buffers, returns a Buffer or null)
     unbox(box, nonce, pubkey, privkey)
     // generates a new keypair, returns {private: <buffer>, public: <buffer>}
     boxKeypair()
@@ -25,9 +25,9 @@ Crypto-Box
 Signatures
 ----------
 
-    // sign, returns the signed message
+    // sign, returns the signed message as Buffer (message is a Buffer or a string, privkey is a Buffer)
     sign(message, privkey)
-    // verify signature and remove it
+    // verify signature and remove it (parameters are Buffers, returns a Buffer or null)
     unsign(message, pubkey)
     // generates a new keypair, returns {private: <buffer>, public: <buffer>}
     signKeypair()
