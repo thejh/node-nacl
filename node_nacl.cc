@@ -17,8 +17,6 @@ static Handle<Value> node_crypto_box_keypair (const Arguments&);
 
 static Handle<Value> node_crypto_sign_keypair (const Arguments&);
 
-extern "C" void init (Handle<Object>);
-
 
 static string buf_to_str (Handle<Object> b) {
   return string(Buffer::Data(b), Buffer::Length(b));
@@ -106,8 +104,7 @@ static Handle<Value> node_crypto_sign_keypair (const Arguments& args) {
   return scope.Close(res);
 }
 
-extern "C" void init (Handle<Object> target) {
-  HandleScope scope;
+void init (Handle<Object> target) {
   NODE_SET_METHOD(target, "box", node_crypto_box);
   NODE_SET_METHOD(target, "box_open", node_crypto_box_open);
   NODE_SET_METHOD(target, "box_keypair", node_crypto_box_keypair);
@@ -123,3 +120,5 @@ extern "C" void init (Handle<Object> target) {
   target->Set(v8::String::NewSymbol("sign_PUBLICKEYBYTES"), Integer::New(crypto_sign_PUBLICKEYBYTES));
   target->Set(v8::String::NewSymbol("sign_SECRETKEYBYTES"), Integer::New(crypto_sign_SECRETKEYBYTES));
 }
+
+NODE_MODULE(node_nacl, init)
