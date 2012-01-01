@@ -18,7 +18,6 @@ def build(bld):
   bld.env.LIBPATH_NACL=[bld.path.abspath()+'/build/localhost/lib/x86/']
   bld.env.STATICLIB_NACL="nacl"
   obj = bld.new_task_gen("cxx", "shlib", "node_addon")
-  obj.cxxflags = ["-D_FILE_OFFSET_BITS=64", "-D_LARGEFILE_SOURCE", "-DEV_MULTIPLICITY=0"]
   obj.target = "node_nacl"
   obj.source = "node_nacl.cc"
   obj.includes = bld.path.abspath()+'/build/localhost/include/x86/'

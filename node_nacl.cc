@@ -15,9 +15,9 @@ static Handle<Value> node_crypto_box (const Arguments&);
 static Handle<Value> node_crypto_box_open (const Arguments&);
 static Handle<Value> node_crypto_box_keypair (const Arguments&);
 
+static Handle<Value> node_crypto_sign (const Arguments&);
+static Handle<Value> node_crypto_sign_open (const Arguments&);
 static Handle<Value> node_crypto_sign_keypair (const Arguments&);
-
-extern "C" void init (Handle<Object>);
 
 
 static string buf_to_str (Handle<Object> b) {
@@ -106,20 +106,25 @@ static Handle<Value> node_crypto_sign_keypair (const Arguments& args) {
   return scope.Close(res);
 }
 
-extern "C" void init (Handle<Object> target) {
-  HandleScope scope;
-  NODE_SET_METHOD(target, "box", node_crypto_box);
-  NODE_SET_METHOD(target, "box_open", node_crypto_box_open);
-  NODE_SET_METHOD(target, "box_keypair", node_crypto_box_keypair);
+
+extern "C" {
+  static void init (Handle<Object> target) {
+    HandleScope scope;
+    
+    NODE_SET_METHOD(target, "box", node_crypto_box);
+    NODE_SET_METHOD(target, "box_open", node_crypto_box_open);
+    NODE_SET_METHOD(target, "box_keypair", node_crypto_box_keypair);
   
-  NODE_SET_METHOD(target, "sign", node_crypto_sign);
-  NODE_SET_METHOD(target, "sign_open", node_crypto_sign_open);
-  NODE_SET_METHOD(target, "sign_keypair", node_crypto_sign_keypair);
+    NODE_SET_METHOD(target, "sign", node_crypto_sign);
+    NODE_SET_METHOD(target, "sign_open", node_crypto_sign_open);
+    NODE_SET_METHOD(target, "sign_keypair", node_crypto_sign_keypair);
   
-  target->Set(v8::String::NewSymbol("box_NONCEBYTES"), Integer::New(crypto_box_NONCEBYTES));
-  target->Set(v8::String::NewSymbol("box_PUBLICKEYBYTES"), Integer::New(crypto_box_PUBLICKEYBYTES));
-  target->Set(v8::String::NewSymbol("box_SECRETKEYBYTES"), Integer::New(crypto_box_SECRETKEYBYTES));
+    target->Set(String::NewSymbol("box_NONCEBYTES"), Integer::New(crypto_box_NONCEBYTES));
+    target->Set(String::NewSymbol("box_PUBLICKEYBYTES"), Integer::New(crypto_box_PUBLICKEYBYTES));
+    target->Set(String::NewSymbol("box_SECRETKEYBYTES"), Integer::New(crypto_box_SECRETKEYBYTES));
   
-  target->Set(v8::String::NewSymbol("sign_PUBLICKEYBYTES"), Integer::New(crypto_sign_PUBLICKEYBYTES));
-  target->Set(v8::String::NewSymbol("sign_SECRETKEYBYTES"), Integer::New(crypto_sign_SECRETKEYBYTES));
+    target->Set(String::NewSymbol("sign_PUBLICKEYBYTES"), Integer::New(crypto_sign_PUBLICKEYBYTES));
+    target->Set(String::NewSymbol("sign_SECRETKEYBYTES"), Integer::New(crypto_sign_SECRETKEYBYTES));
+  }
+  NODE_MODULE(node_nacl, init)
 }
