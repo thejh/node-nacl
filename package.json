@@ -2,7 +2,7 @@
   "author": "Jann Horn <jannhorn@googlemail.com>",
   "name": "nacl",
   "description": "Networking and Cryptography library bindings - high-speed, high-security, easy-to-use crypto library",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "https://github.com/thejh/node-nacl",
   "repository": {
     "type": "git",
