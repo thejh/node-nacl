@@ -1,3 +1,7 @@
+WARNING: This library DOES NOT WORK on 64-bit systems, and there's nothing I can do about
+it before the next version of NaCl is available.
+=========================
+
 Bindings for the [Networking and Cryptography library (NaCl)](http://nacl.cr.yp.to/).
 This gives you a fast and easy-to-use crypto box: Put stuff inside, turn the key
 and it's automagically signed and encrypted. Reverse direction works, too.
