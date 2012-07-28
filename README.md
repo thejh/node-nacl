@@ -1,5 +1,4 @@
-WARNING: This library DOES NOT WORK on 64-bit systems, and there's nothing I can do about
-it before the next version of NaCl is available.
+WARNING: This library DOES NOT WORK on 64-bit systems, and there's nothing I can do about it before the next version of NaCl is available.
 =========================
 
 Bindings for the [Networking and Cryptography library (NaCl)](http://nacl.cr.yp.to/).
