@@ -8,6 +8,7 @@
 #include <crypto_sign.h>
 #include <crypto_secretbox.h>
 #include <crypto_onetimeauth.h>
+#include <crypto_stream.h>
 
 using namespace std;
 using namespace node;
@@ -26,6 +27,9 @@ static Handle<Value> node_crypto_secretbox_open (const Arguments&);
 
 static Handle<Value> node_crypto_onetimeauth (const Arguments&);
 static Handle<Value> node_crypto_onetimeauth_verify (const Arguments&);
+
+static Handle<Value> node_crypto_stream (const Arguments&);
+static Handle<Value> node_crypto_stream_xor (const Arguments&);
 
 
 static string buf_to_str (Handle<Object> b) {
@@ -167,6 +171,32 @@ static Handle<Value> node_crypto_onetimeauth_verify (const Arguments& args) {
   }
 }
 
+static Handle<Value> node_crypto_stream (const Arguments& args) {
+  HandleScope scope;
+  size_t clen = args[0]->IntegerValue();
+  string n = buf_to_str(args[1]->ToObject());
+  string k = buf_to_str(args[2]->ToObject());
+  try {
+    string c = crypto_stream(clen,n,k);
+    return scope.Close(str_to_buf(c)->handle_);
+  } catch(...) {
+    return THROW_ERROR("stream error");
+  }
+}
+
+static Handle<Value> node_crypto_stream_xor (const Arguments& args) {
+  HandleScope scope;
+  string m = buf_to_str(args[0]->ToObject());
+  string n = buf_to_str(args[1]->ToObject());
+  string k = buf_to_str(args[2]->ToObject());
+  try {
+    string c = crypto_stream_xor(m,n,k);
+    return scope.Close(str_to_buf(c)->handle_);
+  } catch(...) {
+    return THROW_ERROR("stream_xor error");
+  }
+}
+
 
 extern "C" {
   void init (Handle<Object> target) {
@@ -185,6 +215,9 @@ extern "C" {
 
     NODE_SET_METHOD(target, "onetimeauth", node_crypto_onetimeauth);
     NODE_SET_METHOD(target, "onetimeauth_verify", node_crypto_onetimeauth_verify);
+
+    NODE_SET_METHOD(target, "stream", node_crypto_stream);
+    NODE_SET_METHOD(target, "stream_xor", node_crypto_stream_xor);
   
     target->Set(String::NewSymbol("box_NONCEBYTES"), Integer::New(crypto_box_NONCEBYTES));
     target->Set(String::NewSymbol("box_PUBLICKEYBYTES"), Integer::New(crypto_box_PUBLICKEYBYTES));
