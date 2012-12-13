@@ -30,6 +30,8 @@ static Buffer* str_to_buf (string s) {
   return res;
 }
 
+#define THROW_ERROR(msg) \
+  ThrowException(Exception::Error(String::New(msg)))
 
 static Handle<Value> node_crypto_box (const Arguments& args) {
   HandleScope scope;
@@ -41,7 +43,7 @@ static Handle<Value> node_crypto_box (const Arguments& args) {
     string c = crypto_box(m,n,pk,sk);
     return scope.Close(str_to_buf(c)->handle_);
   } catch(...) {
-    return scope.Close(Null());
+    return THROW_ERROR("box error");
   }
 }
 
@@ -55,7 +57,7 @@ static Handle<Value> node_crypto_box_open (const Arguments& args) {
     string m = crypto_box_open(c,n,pk,sk);
     return scope.Close(str_to_buf(m)->handle_);
   } catch(...) {
-    return scope.Close(Null());
+    return THROW_ERROR("box_open error");
   }
 }
 
@@ -79,7 +81,7 @@ static Handle<Value> node_crypto_sign (const Arguments& args) {
     string sm = crypto_sign(m,sk);
     return scope.Close(str_to_buf(sm)->handle_);
   } catch(...) {
-    return scope.Close(Null());
+    return THROW_ERROR("sign error");
   }
 }
 
@@ -91,7 +93,7 @@ static Handle<Value> node_crypto_sign_open (const Arguments& args) {
     string m = crypto_sign_open(sm,pk);
     return scope.Close(str_to_buf(m)->handle_);
   } catch(...) {
-    return scope.Close(Null());
+    return THROW_ERROR("sign_open error");
   }
 }
 
