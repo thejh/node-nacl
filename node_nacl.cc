@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <crypto_box.h>
 #include <crypto_sign.h>
+#include <crypto_secretbox.h>
 
 using namespace std;
 using namespace node;
@@ -18,6 +19,9 @@ static Handle<Value> node_crypto_box_keypair (const Arguments&);
 static Handle<Value> node_crypto_sign (const Arguments&);
 static Handle<Value> node_crypto_sign_open (const Arguments&);
 static Handle<Value> node_crypto_sign_keypair (const Arguments&);
+
+static Handle<Value> node_crypto_secretbox (const Arguments&);
+static Handle<Value> node_crypto_secretbox_open (const Arguments&);
 
 
 static string buf_to_str (Handle<Object> b) {
@@ -108,6 +112,32 @@ static Handle<Value> node_crypto_sign_keypair (const Arguments& args) {
   return scope.Close(res);
 }
 
+static Handle<Value> node_crypto_secretbox (const Arguments& args) {
+  HandleScope scope;
+  string m = buf_to_str(args[0]->ToObject());
+  string n = buf_to_str(args[1]->ToObject());
+  string k = buf_to_str(args[2]->ToObject());
+  try {
+    string c = crypto_secretbox(m,n,k);
+    return scope.Close(str_to_buf(c)->handle_);
+  } catch(...) {
+    return THROW_ERROR("secretbox error");
+  }
+}
+
+static Handle<Value> node_crypto_secretbox_open (const Arguments& args) {
+  HandleScope scope;
+  string c = buf_to_str(args[0]->ToObject());
+  string n = buf_to_str(args[1]->ToObject());
+  string k = buf_to_str(args[2]->ToObject());
+  try {
+    string m = crypto_secretbox_open(c,n,k);
+    return scope.Close(str_to_buf(m)->handle_);
+  } catch(...) {
+    return THROW_ERROR("secretbox_open error");
+  }
+}
+
 
 extern "C" {
   void init (Handle<Object> target) {
@@ -120,6 +150,9 @@ extern "C" {
     NODE_SET_METHOD(target, "sign", node_crypto_sign);
     NODE_SET_METHOD(target, "sign_open", node_crypto_sign_open);
     NODE_SET_METHOD(target, "sign_keypair", node_crypto_sign_keypair);
+
+    NODE_SET_METHOD(target, "secretbox", node_crypto_secretbox);
+    NODE_SET_METHOD(target, "secretbox_open", node_crypto_secretbox_open);
   
     target->Set(String::NewSymbol("box_NONCEBYTES"), Integer::New(crypto_box_NONCEBYTES));
     target->Set(String::NewSymbol("box_PUBLICKEYBYTES"), Integer::New(crypto_box_PUBLICKEYBYTES));
