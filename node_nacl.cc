@@ -1,7 +1,7 @@
 #include <v8.h>
 #include <node.h>
 #include <node_buffer.h>
-#include <string.h>
+#include <string>
 #include <stdlib.h>
 #include <unistd.h>
 #include <crypto_box.h>
@@ -108,7 +108,7 @@ static Handle<Value> node_crypto_sign_keypair (const Arguments& args) {
 
 
 extern "C" {
-  static void init (Handle<Object> target) {
+  void init (Handle<Object> target) {
     HandleScope scope;
     
     NODE_SET_METHOD(target, "box", node_crypto_box);

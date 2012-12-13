@@ -1,4 +1,4 @@
-var binding = require('./build/Release/node_nacl')
+var binding = require('./build/Release/nacl');
 
 // produces an authenticated ciphertext. might return null.
 exports.box = function(message, nonce, pubkey, privkey) {
