@@ -7,6 +7,7 @@
 #include <crypto_box.h>
 #include <crypto_sign.h>
 #include <crypto_secretbox.h>
+#include <crypto_onetimeauth.h>
 
 using namespace std;
 using namespace node;
@@ -22,6 +23,9 @@ static Handle<Value> node_crypto_sign_keypair (const Arguments&);
 
 static Handle<Value> node_crypto_secretbox (const Arguments&);
 static Handle<Value> node_crypto_secretbox_open (const Arguments&);
+
+static Handle<Value> node_crypto_onetimeauth (const Arguments&);
+static Handle<Value> node_crypto_onetimeauth_verify (const Arguments&);
 
 
 static string buf_to_str (Handle<Object> b) {
@@ -138,6 +142,31 @@ static Handle<Value> node_crypto_secretbox_open (const Arguments& args) {
   }
 }
 
+static Handle<Value> node_crypto_onetimeauth (const Arguments& args) {
+  HandleScope scope;
+  string m = buf_to_str(args[0]->ToObject());
+  string k = buf_to_str(args[1]->ToObject());
+  try {
+    string c = crypto_onetimeauth(m,k);
+    return scope.Close(str_to_buf(c)->handle_);
+  } catch(...) {
+    return THROW_ERROR("onetimeauth error");
+  }
+}
+
+static Handle<Value> node_crypto_onetimeauth_verify (const Arguments& args) {
+  HandleScope scope;
+  string a = buf_to_str(args[0]->ToObject());
+  string m = buf_to_str(args[1]->ToObject());
+  string k = buf_to_str(args[2]->ToObject());
+  try {
+    crypto_onetimeauth_verify(a,m,k);
+    return scope.Close(Null());
+  } catch(...) {
+    return THROW_ERROR("onetimeauth_verify error");
+  }
+}
+
 
 extern "C" {
   void init (Handle<Object> target) {
@@ -153,6 +182,9 @@ extern "C" {
 
     NODE_SET_METHOD(target, "secretbox", node_crypto_secretbox);
     NODE_SET_METHOD(target, "secretbox_open", node_crypto_secretbox_open);
+
+    NODE_SET_METHOD(target, "onetimeauth", node_crypto_onetimeauth);
+    NODE_SET_METHOD(target, "onetimeauth_verify", node_crypto_onetimeauth_verify);
   
     target->Set(String::NewSymbol("box_NONCEBYTES"), Integer::New(crypto_box_NONCEBYTES));
     target->Set(String::NewSymbol("box_PUBLICKEYBYTES"), Integer::New(crypto_box_PUBLICKEYBYTES));
