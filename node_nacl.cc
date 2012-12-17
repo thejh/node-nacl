@@ -54,8 +54,8 @@ static Handle<Value> node_crypto_box (const Arguments& args) {
   try {
     string c = crypto_box(m,n,pk,sk);
     return scope.Close(str_to_buf(c)->handle_);
-  } catch(...) {
-    return THROW_ERROR("box error");
+  } catch(char const *err) {
+    return THROW_ERROR(err);
   }
 }
 
@@ -68,8 +68,8 @@ static Handle<Value> node_crypto_box_open (const Arguments& args) {
   try {
     string m = crypto_box_open(c,n,pk,sk);
     return scope.Close(str_to_buf(m)->handle_);
-  } catch(...) {
-    return THROW_ERROR("box_open error");
+  } catch(char const *err) {
+    return THROW_ERROR(err);
   }
 }
 
@@ -92,8 +92,8 @@ static Handle<Value> node_crypto_sign (const Arguments& args) {
   try {
     string sm = crypto_sign(m,sk);
     return scope.Close(str_to_buf(sm)->handle_);
-  } catch(...) {
-    return THROW_ERROR("sign error");
+  } catch(char const* err) {
+    return THROW_ERROR(err);
   }
 }
 
@@ -104,8 +104,8 @@ static Handle<Value> node_crypto_sign_open (const Arguments& args) {
   try {
     string m = crypto_sign_open(sm,pk);
     return scope.Close(str_to_buf(m)->handle_);
-  } catch(...) {
-    return THROW_ERROR("sign_open error");
+  } catch(char const *err) {
+    return THROW_ERROR(err);
   }
 }
 
@@ -128,8 +128,8 @@ static Handle<Value> node_crypto_secretbox (const Arguments& args) {
   try {
     string c = crypto_secretbox(m,n,k);
     return scope.Close(str_to_buf(c)->handle_);
-  } catch(...) {
-    return THROW_ERROR("secretbox error");
+  } catch(char const *err) {
+    return THROW_ERROR(err);
   }
 }
 
@@ -141,8 +141,8 @@ static Handle<Value> node_crypto_secretbox_open (const Arguments& args) {
   try {
     string m = crypto_secretbox_open(c,n,k);
     return scope.Close(str_to_buf(m)->handle_);
-  } catch(...) {
-    return THROW_ERROR("secretbox_open error");
+  } catch(char const *err) {
+    return THROW_ERROR(err);
   }
 }
 
@@ -153,8 +153,8 @@ static Handle<Value> node_crypto_onetimeauth (const Arguments& args) {
   try {
     string c = crypto_onetimeauth(m,k);
     return scope.Close(str_to_buf(c)->handle_);
-  } catch(...) {
-    return THROW_ERROR("onetimeauth error");
+  } catch(char const *err) {
+    return THROW_ERROR(err);
   }
 }
 
@@ -166,8 +166,8 @@ static Handle<Value> node_crypto_onetimeauth_verify (const Arguments& args) {
   try {
     crypto_onetimeauth_verify(a,m,k);
     return scope.Close(Null());
-  } catch(...) {
-    return THROW_ERROR("onetimeauth_verify error");
+  } catch(char const *err) {
+    return THROW_ERROR(err);
   }
 }
 
@@ -179,8 +179,8 @@ static Handle<Value> node_crypto_stream (const Arguments& args) {
   try {
     string c = crypto_stream(clen,n,k);
     return scope.Close(str_to_buf(c)->handle_);
-  } catch(...) {
-    return THROW_ERROR("stream error");
+  } catch(char const *err) {
+    return THROW_ERROR(err);
   }
 }
 
@@ -192,8 +192,8 @@ static Handle<Value> node_crypto_stream_xor (const Arguments& args) {
   try {
     string c = crypto_stream_xor(m,n,k);
     return scope.Close(str_to_buf(c)->handle_);
-  } catch(...) {
-    return THROW_ERROR("stream_xor error");
+  } catch(char const *err) {
+    return THROW_ERROR(err);
   }
 }
 
