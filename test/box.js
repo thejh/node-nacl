@@ -198,7 +198,7 @@ test("box-nacl", function(t) {
         var box6_c = n.box(box6_msg, box6_nonce, box6_bobpk, box6_alicesk);
         for (var box6_caught=0; box6_caught < 10; box6_caught++) {
             // N.B. cumulative, that's how box6.cpp was written
-            box6_c[Math.round(Math.random()*box6_mlen)] = Math.round(Math.random()*256);
+            box6_c[Math.floor(Math.random()*box6_mlen)] = Math.floor(Math.random()*256);
             try {
                 var box6_m2 = n.box_open(box6_c, box6_nonce, box6_alicepk, box6_bobsk);
                 if (box6_msg.toString("hex") != box6_m2.toString("hex")) {

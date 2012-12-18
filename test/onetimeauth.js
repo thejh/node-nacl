@@ -84,7 +84,7 @@ test("onetimeauth-nacl", function(t) {
         var ota7_a = n.onetimeauth(ota7_c, ota7_key);
         n.onetimeauth_verify(ota7_a, ota7_c, ota7_key); // no exception
         if (ota7_clen > 0) {
-            ota7_c[Math.round(Math.random()*ota7_clen)] += 1 + Math.round(Math.random()*255); // always changes it
+            ota7_c[Math.floor(Math.random()*ota7_clen)] += 1 + Math.floor(Math.random()*255); // always changes it
             try {
                 n.onetimeauth_verify(ota7_a, ota7_c, ota7_key);
                 t.fail("forgery");
@@ -92,7 +92,7 @@ test("onetimeauth-nacl", function(t) {
                 t.equal(e.message, "invalid authenticator");
             }
             // N.B. cumulative
-            ota7_a[Math.round(Math.random()*ota7_a.length)] += 1 + Math.round(Math.random()*255); // always changes it
+            ota7_a[Math.floor(Math.random()*ota7_a.length)] += 1 + Math.floor(Math.random()*255); // always changes it
             try {
                 n.onetimeauth_verify(ota7_a, ota7_c, ota7_key);
                 t.fail("forgery");

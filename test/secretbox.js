@@ -162,7 +162,7 @@ test("secretbox-nacl", function(t) {
         var sb6_c = n.secretbox(sb6_msg, sb6_nonce, sb6_key);
         for (var sb6_caught=0; sb6_caught < 10; sb6_caught++) {
             // N.B. cumulative, that's how secretbox6.cpp was written
-            sb6_c[Math.round(Math.random()*sb6_mlen)] = Math.round(Math.random()*256);
+            sb6_c[Math.floor(Math.random()*sb6_mlen)] = Math.floor(Math.random()*256);
             try {
                 var sb6_m2 = n.secretbox_open(sb6_c, sb6_nonce, sb6_key);
                 if (sb6_msg.toString("hex") != sb6_m2.toString("hex")) {
