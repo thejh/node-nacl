@@ -170,7 +170,11 @@ test("box-nacl", function(t) {
     // box3 is just a C++ variant of box[1]
     // box4 is just a C++ variant of box2
 
-    for(var box5_mlen=0; box5_mlen < 1000; box5_mlen++) {
+    // the NACL tests use 1000 iterations, which takes about 45s on my fast
+    // laptop. To keep our TAP test-runner from timing out, we only run 100
+    // iterations.
+
+    for(var box5_mlen=0; box5_mlen < 100; box5_mlen++) {
         var box5_alicekeys = n.box_keypair();
         var box5_alicepk = box5_alicekeys[0];
         var box5_alicesk = box5_alicekeys[1];
@@ -185,7 +189,7 @@ test("box-nacl", function(t) {
         t.equivalent(box5_msg, box5_m2);
     }
 
-    for(var box6_mlen=0; box6_mlen < 1000; box6_mlen++) {
+    for(var box6_mlen=0; box6_mlen < 100; box6_mlen++) {
         var box6_alicekeys = n.box_keypair();
         var box6_alicepk = box6_alicekeys[0];
         var box6_alicesk = box6_alicekeys[1];
