@@ -9,5 +9,5 @@
     "url": "git://github.com/thejh/node-nacl.git"
   },
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {"tap": ">=0.3.3"}
 }

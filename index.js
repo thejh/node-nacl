@@ -1,12 +1,13 @@
-var binding = require('./build/Release/node_nacl')
+var binding = require('./build/Release/nacl');
+exports.nacl = binding; // looks just like the C/C++ API
 
-// produces an authenticated ciphertext. might return null.
+// produces an authenticated ciphertext. might raise Error.
 exports.box = function(message, nonce, pubkey, privkey) {
   if (typeof message === 'string') message = new Buffer(message)
   return binding.box(message, nonce, pubkey, privkey)
 }
 
-// opens a cryptobox. might return null.
+// opens a cryptobox. might return Error.
 exports.unbox = binding.box_open
 
 // make a private and its corresponding public key
