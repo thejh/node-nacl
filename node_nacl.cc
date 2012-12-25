@@ -151,8 +151,8 @@ static Handle<Value> node_crypto_onetimeauth (const Arguments& args) {
   string m = buf_to_str(args[0]->ToObject());
   string k = buf_to_str(args[1]->ToObject());
   try {
-    string c = crypto_onetimeauth(m,k);
-    return scope.Close(str_to_buf(c)->handle_);
+    string a = crypto_onetimeauth(m,k);
+    return scope.Close(str_to_buf(a)->handle_);
   } catch(char const *err) {
     return THROW_ERROR(err);
   }
